@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Application2</string>
+    <string name="radio_male">Male</string>
+    <string name="radio_female">Female</string>
+    <string name="title_activity_display_member">DisplayMemberActivity</string>
+    <string name="title_activity_display_dependent">DisplayDependentActivity</string>
+</resources>
