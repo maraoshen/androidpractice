@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">My Application2</string>
+    <string name="app_name">Philhealth</string>
     <string name="radio_male">Male</string>
     <string name="radio_female">Female</string>
-    <string name="title_activity_display_member">DisplayMemberActivity</string>
-    <string name="title_activity_display_dependent">DisplayDependentActivity</string>
+    <string name="title_activity_display_member">Member</string>
+    <string name="title_activity_display_dependent">Dependents</string>
 </resources>

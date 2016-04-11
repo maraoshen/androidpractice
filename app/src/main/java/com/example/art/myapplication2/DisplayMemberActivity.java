@@ -38,8 +38,9 @@ public class DisplayMemberActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_member);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -51,6 +52,8 @@ public class DisplayMemberActivity extends AppCompatActivity {
         task.execute();
         //queryMember();
     }
+
+
 
     private void extractIntent(){
         Intent intent = getIntent();
@@ -195,6 +198,8 @@ public class DisplayMemberActivity extends AppCompatActivity {
                 count = final_object.getPropertyCount();
                 System.out.println("countnipin: " + count);
                 System.out.println("pin: " + final_object.getProperty(0).toString());
+
+
                 getPin = final_object.getProperty(0).toString();
                 getLastName = final_object.getProperty(1).toString();
                 getFirstName = final_object.getProperty(2).toString();

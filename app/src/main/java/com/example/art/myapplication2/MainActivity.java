@@ -1,10 +1,13 @@
 package com.example.art.myapplication2;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 import android.widget.TextView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.support.v7.widget.Toolbar;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -43,9 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+  //      Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+  //      setSupportActionBar(myToolbar);
+
 
         bt = (Button) findViewById(R.id.button);
         phidnum = (EditText) findViewById(R.id.editTextIDNum);
@@ -55,8 +63,43 @@ public class MainActivity extends AppCompatActivity {
         ename = (EditText) findViewById(R.id.editTextExtName);
         bday = (EditText) findViewById(R.id.editTextBday);
         radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
+        openLogin();
 
     }
+    public void openLogin() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("Enter your username and password")
+                .setTitle("Log in");
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.dialog_login, null));
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                AlertDialog dlg = (AlertDialog) dialog;
+                final String email = ((TextView)dlg.findViewById(R.id.email)).getText().toString();
+                final String password =((TextView)dlg.findViewById(R.id.password)).getText().toString();
+
+                // TODO: sign in to Firebase
+
+            }
+        });
+        builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                System.exit(0);
+
+                // TODO: sign in to Firebase
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+    }
+
 
 
 
