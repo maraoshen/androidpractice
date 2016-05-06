@@ -66,13 +66,14 @@ public class DisplayDependentActivity extends AppCompatActivity {
         @Override
         protected SoapObject doInBackground(Void... params) {
             Log.i(TAG, "doInBackground");
-            return queryDependent();
+            return queryDependent();    //returns a SoapObject dependents
         }
 
+        //accepts soapobject from doinbaackground as parameter
         protected void onPostExecute(SoapObject res) {
             Log.i(TAG, "onPostExecute");
             //displayInfo();
-            init(res);
+            init(res);  //put in table dependent data
         }
 
     }
@@ -140,7 +141,7 @@ public class DisplayDependentActivity extends AppCompatActivity {
                 tbrow.addView(t2v);
 
 
-                getFirstName = final_object.getProperty(3).toString();
+                getFirstName = final_object.getProperty(2).toString();
                 //firstname
                 TextView t3v = new TextView(this);
                 t3v.setText(getFirstName);
@@ -149,7 +150,7 @@ public class DisplayDependentActivity extends AppCompatActivity {
                 tbrow.addView(t3v);
 
 
-                getMiddleName = final_object.getProperty(4).toString();
+                getMiddleName = final_object.getProperty(3).toString();
                 //middlename
                 TextView t4v = new TextView(this);
                 t4v.setText(getMiddleName);
@@ -157,7 +158,7 @@ public class DisplayDependentActivity extends AppCompatActivity {
                 t4v.setGravity(Gravity.CENTER);
                 tbrow.addView(t4v);
 
-                getStatus = final_object.getProperty(6).toString();
+                getStatus = final_object.getProperty(5).toString();
                 //status
                 TextView t5v = new TextView(this);
                 t5v.setText(getStatus);
@@ -166,7 +167,7 @@ public class DisplayDependentActivity extends AppCompatActivity {
                 tbrow.addView(t5v);
 
 
-                getSex = final_object.getProperty(23).toString();
+                getSex = final_object.getProperty(7).toString();
                 //sex
                 TextView t6v = new TextView(this);
                 t6v.setText(getSex);
@@ -175,7 +176,7 @@ public class DisplayDependentActivity extends AppCompatActivity {
                 tbrow.addView(t6v);
 
 
-                getDOB = final_object.getProperty(8).toString();
+                getDOB = final_object.getProperty(6).toString();
                 //birthdate
                 TextView t7v = new TextView(this);
                 t7v.setText(getDOB);
@@ -203,8 +204,6 @@ public class DisplayDependentActivity extends AppCompatActivity {
 
         try {
             SoapObject Request = new SoapObject(NAMESPACE, METHOD_NAME);
-            //Request.addProperty("A", 1762);
-            //Request.addProperty("B", 232);
             Log.i(TAG, "before query");
             Request.addProperty("Pin", getidnum);
             //Request.addProperty("B", 232);
@@ -213,7 +212,7 @@ public class DisplayDependentActivity extends AppCompatActivity {
             soapEnvelope.dotNet = true;
             soapEnvelope.setOutputSoapObject(Request);
 
-            HttpTransportSE transport = new HttpTransportSE(URL);
+            HttpTransportSE transport = new HttpTransportSE(URL,60000);
 
             transport.call(SOAP_ACTION, soapEnvelope);
             Log.i(TAG, "after query");

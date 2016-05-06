@@ -1,7 +1,5 @@
 package com.example.art.myapplication2;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,16 +15,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.support.v7.widget.Toolbar;
 
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapPrimitive;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-
-
 public class MainActivity extends AppCompatActivity {
 
     public final static String EXTRA_ID = "com.example.art.myapplication2.ID";
+    public final static String EXTRA_PASS = "com.example.art.myapplication2.Pass";
     public final static String EXTRA_LNAME = "com.example.art.myapplication2.LNAME";
     public final static String EXTRA_FNAME = "com.example.art.myapplication2.FNAME";
     public final static String EXTRA_MNAME = "com.example.art.myapplication2.MNAME";
@@ -34,16 +26,15 @@ public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_BDAY = "com.example.art.myapplication2.BDAY";
     public final static String EXTRA_SEX = "com.example.art.myapplication2.SEX";
 
+    public static boolean isLoggedIn = false;
+
 
     String TAG = "Response";
     Button bt;
-    EditText phidnum, lname, fname, mname, ename, bday;
-    String getidnum, getLname, getFname, getMname, getEname, getBday, getSex;
-    SoapPrimitive resultString;
-    TextView tvidnum, tvname, tvbday, tvsex, tvsum;
-    RadioButton radioSexButton;
-    RadioGroup radioSexGroup;
-
+    EditText phidnum, lname, fname, mname, ename, bday, password;
+    String getidnum, getLname, getFname, getMname, getEname, getBday, getSex, getpass;
+    RadioButton radioSexButton, radioBtnUser;
+    RadioGroup radioSexGroup, radioGroupUserType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,74 +45,39 @@ public class MainActivity extends AppCompatActivity {
   //      Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
   //      setSupportActionBar(myToolbar);
 
-
-        bt = (Button) findViewById(R.id.button);
+        //get the object for the textfields
         phidnum = (EditText) findViewById(R.id.editTextIDNum);
-        lname = (EditText) findViewById(R.id.editTextLastName);
-        fname = (EditText) findViewById(R.id.editTextFirstName);
-        mname = (EditText) findViewById(R.id.editTextMidName);
-        ename = (EditText) findViewById(R.id.editTextExtName);
-        bday = (EditText) findViewById(R.id.editTextBday);
-        radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
-        openLogin();
+        password = (EditText) findViewById(R.id.editTextPassword);
+        //lname = (EditText) findViewById(R.id.editTextLastName);
+        //fname = (EditText) findViewById(R.id.editTextFirstName);
+        //mname = (EditText) findViewById(R.id.editTextMidName);
+        //ename = (EditText) findViewById(R.id.editTextExtName);
+        //bday = (EditText) findViewById(R.id.editTextBday);
+        //radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
+        //tvsum = (TextView) findViewById(R.id.mac);
 
     }
-    public void openLogin() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setMessage("Enter your username and password")
-                .setTitle("Log in");
-
-        LayoutInflater inflater = this.getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.dialog_login, null));
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                AlertDialog dlg = (AlertDialog) dialog;
-                final String email = ((TextView)dlg.findViewById(R.id.email)).getText().toString();
-                final String password =((TextView)dlg.findViewById(R.id.password)).getText().toString();
-
-                // TODO: sign in to Firebase
-
-            }
-        });
-        builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                System.exit(0);
-
-                // TODO: sign in to Firebase
-
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
-    }
-
-
-
-
-
 
     //pag pinindot ang search button
     public void searchMember(View view){
 
         // get selected radio button from radioGroup
-        int selectedId = radioSexGroup.getCheckedRadioButtonId();
+        //int selectedId = radioSexGroup.getCheckedRadioButtonId();
 
         // find the radiobutton by returned id
-        radioSexButton = (RadioButton) findViewById(selectedId);
+        //radioSexButton = (RadioButton) findViewById(selectedId);
 
+        //get text inside textfields
         getidnum = phidnum.getText().toString();
-        getLname = lname.getText().toString();
-        getFname = fname.getText().toString();
-        getMname = mname.getText().toString();
-        getEname = ename.getText().toString();
-        getBday = bday.getText().toString();
-        getSex = radioSexButton.getText().toString();
+        getpass = password.getText().toString();
+        //getLname = lname.getText().toString();
+        //getFname = fname.getText().toString();
+        //getMname = mname.getText().toString();
+        //getEname = ename.getText().toString();
+        //getBday = bday.getText().toString();
+        //getSex = radioSexButton.getText().toString();
 
+        //if inputs are valid, send data to displaymemberactivity
         if (!isInputValid()){
 
         }
@@ -131,46 +87,21 @@ public class MainActivity extends AppCompatActivity {
 
             //ADD TO INTENT
             intent.putExtra(EXTRA_ID, getidnum);
-            intent.putExtra(EXTRA_LNAME, getLname);
-            intent.putExtra(EXTRA_FNAME, getFname);
-            intent.putExtra(EXTRA_MNAME, getMname);
-            intent.putExtra(EXTRA_ENAME, getEname);
-            intent.putExtra(EXTRA_BDAY, getBday);
-            intent.putExtra(EXTRA_SEX, getSex);
+            intent.putExtra(EXTRA_PASS, getpass);
+            //intent.putExtra(EXTRA_LNAME, getLname);
+            //intent.putExtra(EXTRA_FNAME, getFname);
+            //intent.putExtra(EXTRA_MNAME, getMname);
+            //intent.putExtra(EXTRA_ENAME, getEname);
+            //intent.putExtra(EXTRA_BDAY, getBday);
+            //intent.putExtra(EXTRA_SEX, getSex);
             startActivity(intent);
 
-            /*
-
-            String SOAP_ACTION = "urn:PHICWSLibrary-PHICWSService#Sum";
-            String METHOD_NAME = "Sum";
-            String NAMESPACE = "http://www.philhealth.gov.ph";
-            String URL = "https://training.philhealth.gov.ph/integrated/soap/";
-
-            try {
-                SoapObject Request = new SoapObject(NAMESPACE, METHOD_NAME);
-                Request.addProperty("A", 1762);
-                Request.addProperty("B", 232);
-
-                SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-                soapEnvelope.dotNet = true;
-                soapEnvelope.setOutputSoapObject(Request);
-
-                HttpTransportSE transport = new HttpTransportSE(URL);
-
-                transport.call(SOAP_ACTION, soapEnvelope);
-                resultString = (SoapPrimitive) soapEnvelope.getResponse();
-
-                Log.i(TAG, "Result Celsius: " + resultString);
-            } catch (Exception ex) {
-                Log.e(TAG, "Error: " + ex.getMessage());
-            }
-            */
         }
 
     }
 
     private boolean isInputValid(){
-        if (getidnum.length() == 12) { //mali id num
+        if (getidnum.length() == 12 && getpass.length() != 0) { //mali id num
             return true;
         }else if (getidnum.length() == 0){
             if (!isValidLname(getLname)) {
@@ -210,86 +141,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-/*
-        //pag pinindot ang search button
-        bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // get selected radio button from radioGroup
-                int selectedId = radioSexGroup.getCheckedRadioButtonId();
-
-                // find the radiobutton by returned id
-                radioSexButton = (RadioButton) findViewById(selectedId);
-
-                getidnum = phidnum.getText().toString();
-                getLname = lname.getText().toString();
-                getFname = fname.getText().toString();
-                getMname = mname.getText().toString();
-                getEname = ename.getText().toString();
-                getBday = bday.getText().toString();
-                getSex = radioSexButton.getText().toString();
-
-                AsyncCallWS task = new AsyncCallWS();
-                task.execute();
-            }
-        });
-    }
-
-    private class AsyncCallWS extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            Log.i(TAG, "onPreExecute");
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            Log.i(TAG, "doInBackground");
-            //calculate();
-            //computeSum();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            Log.i(TAG, "onPostExecute");
-            //Toast.makeText(MainActivity.this, "Response: " + resultString.toString(), Toast.LENGTH_LONG).show();
-            tvidnum.setText(getidnum);
-            tvname.setText(getLname + ", " + getFname + ", " + getMname + " " + getEname);
-            tvsex.setText(getSex);
-            tvbday.setText(getBday);
-
-            tvsum.setText(resultString.toString());
-        }
-
-    }
-
-    public void computeSum() {
-        String SOAP_ACTION = "urn:PHICWSLibrary-PHICWSService#GetServerTime";
-        String METHOD_NAME = "GetServerTime";
-        String NAMESPACE = "http://www.philhealth.gov.ph";
-        String URL = "http://10.0.2.2:8099/SOAP?service=PHICWSService";
-
-        try {
-
-            SoapObject Request = new SoapObject(NAMESPACE, METHOD_NAME);
-            //Request.addProperty("A", 12);
-            //Request.addProperty("B", 2);
-
-            SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-            soapEnvelope.dotNet = true;
-            soapEnvelope.setOutputSoapObject(Request);
-
-            HttpTransportSE transport = new HttpTransportSE(URL);
-
-            transport.call(SOAP_ACTION, soapEnvelope);
-
-            resultString = (SoapPrimitive) soapEnvelope.getResponse();
-
-            Log.i(TAG, "Result : " + resultString);
-        } catch (Exception ex) {
-            Log.e(TAG, "Error: " + ex.getMessage());
-        }
-    }*/
 }

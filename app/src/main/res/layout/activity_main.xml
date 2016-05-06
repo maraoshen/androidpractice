@@ -6,7 +6,8 @@
     android:id="@+id/scroll"
     android:layout_width="fill_parent"
     style="@style/AppTheme"
-    android:layout_height="wrap_content"
+    android:background="@drawable/tilebg"
+    android:layout_height="match_parent"
     tools:context=".MainActivity">
 
 
@@ -43,8 +44,17 @@
             android:inputType="numberDecimal"
             android:hint="000000000000"
             android:maxLength="12"
-            android:text="190888689730" />
+            android:text="" />
+        <!--190888689730-->
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextPassword"
+            android:inputType="textPassword"
+            android:hint="password" />
+
+        <!--
         <EditText
             android:id="@+id/editTextLastName"
             android:layout_width="match_parent"
@@ -105,14 +115,15 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="date" />
-
+-->
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="searchMember"
             style="@style/buttonStyle"
-            android:text="Search" />
+            android:text="Login" />
+
 
     </LinearLayout>
 </ScrollView>
